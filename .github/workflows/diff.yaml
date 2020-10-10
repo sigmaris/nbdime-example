@@ -14,3 +14,14 @@ jobs:
       with:
         name: diffs
         path: diffs/
+    - uses: actions/github-script@v3
+      with:
+        script: |
+          const response = await github.request('GET /repos/{owner}/{repo}/actions/runs/{run_id}/artifacts', {
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            run_id: context.runId
+          })
+          for(const artifact of response.data.artifacts) {
+            console.log("Artifact download URL:", artifact.archive_download_url)
+          }
