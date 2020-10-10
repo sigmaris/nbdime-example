@@ -22,6 +22,10 @@ jobs:
             repo: context.repo.repo,
             run_id: context.runId
           })
+          console.log(response)
           for(const artifact of response.data.artifacts) {
-            console.log("Artifact download URL:", artifact.archive_download_url)
+            if(artifact.name === "diffs") {
+              const { issue: { number: issue_number }, repo: { owner, repo }  } = context;
+              github.issues.createComment({ issue_number, owner, repo, body: "Notebook HTML diff: " + artifact.archive_download_url });        
+            }
           }
