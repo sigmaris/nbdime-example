@@ -1,6 +1,5 @@
 on:
 - pull_request
-
 jobs:
   run_diff:
     runs-on: ubuntu-20.04
